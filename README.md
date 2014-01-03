@@ -9,16 +9,11 @@ Why is it high-performance?
 ### No route traverses
 Just use the natural mapping, Conventions more than the configuration.<br/>
 eg:<br/>
-    http://localhost:8888/say/hello/would <br/>
-<p>                      |    |     |<p/>
-                         |    |     |args<br/>
-                         |    |action<br/>
-                         |controller<br/>
+_____http://localhost:8888/say/hello/would <br/>
+means: http://localhost:8888/controller/action/args<br/>
+                         
 ### 没有路由遍历
 只用自然映射的方式处理路由，约定大于配置。<br/>
 例如:<br/>
-    http://localhost:8888/say/hello/would <br/>
-                         |    |     |<br/>
-                         |    |     |参数<br/>
-                         |    |动作<br/>
-                         |控制器<br/>
+_____http://localhost:8888/say/hello/would <br/>
+为: http://localhost:8888/控制器/动作/参数...<br/>
