@@ -48,3 +48,11 @@ action方法也是在require的时候被编译的，只要处理一次请求，�
     callback:function(){...}// 正真的处理动作
 }
 ```
+Why need single cluster?
+------------------------
+### Node is a single-threaded
+The JS side of Node is a single-threaded, shared context; Unlike PHP (also single-threaded) has a separate context; Node may cause avalanche problems and can not take advantage of multi-core CPU, so the introduction of a multi-process cluster architecture, you can a view of the cluster under the cluster catalog code. The design process will generate the default number of equivalent CPU, and share the same socket descriptor, listening to the same port, to maximize savings and improve utilization of system resources, and the child process will restart automatically when it encounters an error introduced (in fact, create a new child process), add a simple restart strategy, will not fall into excess restart. The default is the operating system process scheduling preemptive scheduling, pretty fair, but also can be customized to suit different scheduling strategies production environment.
+为何需要单机集群？
+-----------------
+### Node 是单线程的
+Node的Js端是单线程的，共用上下文；不像PHP（也是单线程）都有独立的上下文；Node可能会导致雪崩问题，以及无法利用多核CPU，所以引入了多进程集群的架构，可以在cluster目录下查看有关集群的代码。该设计会默认生成CPU个数等值的进程，并且共享同一个socket文件描述符，监听同一端口，达到最大限度的节省系统资源并提高利用率，而且子进程在遇到错误推出时会自动重启（其实是创建了一个新的子进程），添加了简单的重启策略，不会陷入过量重启。进程调度默认是操作系统的抢占式调度，还算公平，也可自定义调度策略以适应不同的生产环境。
