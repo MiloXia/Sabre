@@ -7,7 +7,7 @@ Why is it high-performance?
 为何高性能？
 -----------
 ### No route traverses
-Just use the natural mapping, Conventions more than the configuration.
+Just use the natural mapping, Conventions more than the configuration.<br/>
 eg:<br/>
     http://localhost:8888/say/hello/would <br/>
                          |    |     |<br/>
@@ -15,7 +15,7 @@ eg:<br/>
                          |    |action<br/>
                          |controller<br/>
 ### 没有路由遍历
-只用自然映射的方式处理路由，约定大于配置。
+只用自然映射的方式处理路由，约定大于配置。<br/>
 例如:<br/>
     http://localhost:8888/say/hello/would <br/>
                          |    |     |<br/>
