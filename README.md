@@ -10,7 +10,7 @@ Why is it high-performance?
 Just use the natural mapping, Conventions more than the configuration.<br/>
 eg:<br/>
     http://localhost:8888/say/hello/would <br/>
-                         |    |     |<br/>
+<p>                      |    |     |<p/>
                          |    |     |args<br/>
                          |    |action<br/>
                          |controller<br/>
