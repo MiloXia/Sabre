@@ -93,7 +93,7 @@ require('./mode/cluster/master').start(8888);
 var master = require('./mode/cluster/master');
 master.start();
 ```
-
+![Test XIB](http://milostar.cwsurf.de/wf/hello.png)
 What's TODO list
 --------------------
 ### session
