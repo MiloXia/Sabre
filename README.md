@@ -30,5 +30,21 @@ exports.hello = action(['req', 'res'], function(req, res, a) {
     res.end();
 });
 ```
-
-### 采用node原生的require缓存机制，controller被一次require后，就被缓存下来，下次请求到来时，无需再加载。
+### Cache
+Use the native node caching mechanism : require() method, the controller just need require once, then will be cached, the next request comes will without reloading.<br/>
+The action method also be compiled when load the controller, and just need hanlder request once, the other action method will be compiled and cached. The above code will be compiled like this:<br/>
+```
+{
+    modes:['req', 'res'],// the modes need be injected
+    callback:function(){...}// the total hanlder method
+}
+```
+### 缓存
+采用node原生的require缓存机制，controller被一次require后，就被缓存下来，下次请求到来时，无需再加载。<br/>
+action方法也是在require的时候被编译的，只要处理一次请求，所有action方法都会被编译好，并被缓存，上面的code将会被编译成一个action对象：<br/>
+```
+{
+    modes:['req', 'res'],// 需要被注入的模块
+    callback:function(){...}// 正真的处理动作
+}
+```
