@@ -96,10 +96,10 @@ master.start();
 ![Test XIB](http://milostar.cwsurf.de/wf/hello.png)
 What's TODO list
 --------------------
-### session
-### parse request body middleware and other middleware
-### render view template (very important)
-### RESTful api framework (it's very cool)
+#### 1. session
+#### 2. parse request body middleware and other middleware
+#### 3. render view template (very important)
+#### 4. RESTful api framework (it's very cool)
 
 
 
