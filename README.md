@@ -94,12 +94,122 @@ var master = require('./mode/cluster/master');
 master.start();
 ```
 ![Test XIB](http://milostar.cwsurf.de/wf/hello.png)
+
+RESTful api support
+-------------------
+Support RESTful api's already been developed, although somewhat superficial, but already you can use (use of each other with the Web), support for RESTful api semi-configured in the form of semi-mapping, mapping part is locating resources, such as URL: / rest/v1.0/users/1, go find users.js resource directory, load in, as to which method calls, to see how users are defined inside the method, let's take a look.
+### How to use
+```
+var rest = require('../mode/restful').rest;
+
+/*url:GET /users */
+exports.getUsers = rest('res', function(res) {
+
+}).api(rest.GET,'/users');
+
+/*url:GET /users/:id */
+exports.getUser = rest('res', function(res, id) {
+
+}).api(rest.GET, '/users/:id');
+
+/*url:POST /users/:id */
+exports.updateUser = rest(['req','res'], function(req, res, id) {
+	
+}).api(rest.POST, '/users/:id');
+
+/*url:PUT /users */
+exports.createUser = rest(['req','res'], function(req, res) {
+	
+}).api(rest.PUT, '/users');
+
+/*url:DELETE /users/:id */
+exports.deleteUser = rest('res', function(res, id) {
+	
+}).api(rest.DELETE, '/users/:id');
+```
+You have noticed that the 'rest' function is the same way as the 'action' function, it will return an object and call the 'api' method definition http method and path of the object on the line. It's very simple.
+RESTful api支持
+---------------
+RESTful api的支持已经开发完毕，虽然略显粗浅，但是已经可以使用（与Web一起使用互不影响），对于RESTful api的支持是半配置半映射的形式，映射部分在于资源的定位，比如URL：/rest/v1.0/users/1，会去寻找resource目录下的users.js，load进来，至于调用哪个方法，就看users里面的方法怎么定义了，让我们来看看。
+### 如何使用
+```
+var rest = require('../mode/restful').rest;
+
+//定义资源，当然这里是hack的
+var users = [{name:'milo',id:1}, {name:'milo',id:2}, {name:'milo',id:3}]
+/*url:GET /users 获得所有用户*/
+exports.getUsers = rest('res', function(res) {
+	res.writeHead(200,  {'Content-Type':'application/json'});
+	res.write(JSON.stringify(users));
+}).api(rest.GET,'/users'); //请求方法和path在这里定义
+
+/*url:GET /users/:id 获得一个用户*/
+exports.getUser = rest('res', function(res, id) {
+	res.writeHead(200,  {'Content-Type':'application/json'});
+	var user = null;
+	for(var i = 0, len = users.length; i < len; i++) {
+		if(users[i].id == id) {
+			user = users[i];
+			break;
+		}
+	}
+	res.write(JSON.stringify(user));
+}).api(rest.GET, '/users/:id');
+
+/*url:POST /users/:id 更新一个用户*/
+exports.updateUser = rest(['req','res'], function(req, res, id) {
+	
+}).api(rest.POST, '/users/:id');
+
+/*url:PUT /users 创建一个用户*/
+exports.createUser = rest(['req','res'], function(req, res) {
+	
+}).api(rest.PUT, '/users');
+
+/*url:DELETE /users/:id 删除一个用户*/
+exports.deleteUser = rest('res', function(res, id) {
+	
+}).api(rest.DELETE, '/users/:id');
+```
+你已经注意到了和action方法一样的一个rest函数，它会返回一个对象并调用该对象的api方法定义method和path就行了，很简单。
+### Notice
+Before use, you must go to the config / cpnfig file defines the prefixes and api version, the content is free but must have. A good framework can help you to improve standardization, which is to put out a normative, followed also for distinguish Web intersection. Similarly, use name 'users', does not distinguish between singular and plural are the normative order not to fall into the definition of storm somehow.
+```
+var config = {
+	rest: {
+		prefix:"rest",
+		version:"v1.0"
+	}
+};
+```
+### 注意
+在使用前必须到config/cpnfig文件下面定义好rest api的前缀以及api版本，内容随意但是必须得有，好的框架会帮助你提高规范性，这就是为了提搞规范性，其次也是为了区分与Web的路口，同样的使用users，不区分单复数都是为了规范性，不要陷入莫名其妙的定义风波中。
+```
+var config = {
+	rest: {
+		prefix:"rest",
+		version:"v1.0"
+	}
+};
+```
+
+![Test XIB](http://milostar.cwsurf.de/wf/rest.png)
+
+Why no ORM?
+-----------
+I think that in really large projects, ORM is not necessarily a good thing. This framework only for people who know SQL and simple design, not for lazy people, and secondly it does not necessarily agile ORM contrary, what we need is to bring SQL decomposition, and the project is built on the basis of a distributed database cluster ability on. The framework for distributed.
+为何没有ORM？
+-----------
+本人认为在真正大型的项目里面，ORM不见得是好东西，本框架只为懂SQL与简洁的人而设计，而不是为偷懒的人，其次没有ORM不见得就与敏捷背道而驰，我们需要的是能将SQL分解，并将项目构建在分布式数据库集群的基础上的能力，本框架为分布式而生。
+
 What's TODO list
 --------------------
 #### 1. session
 #### 2. parse request body middleware and other middleware
 #### 3. render view template (very important)
-#### 4. RESTful api framework (it's very cool)
+#### 4. Performance Optimization
+
+
 
 
 
