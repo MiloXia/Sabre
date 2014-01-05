@@ -10,7 +10,7 @@ exports.start = function(port) {
 	var server = http.createServer(function(req, res){
 		init_modes(res, req);
 		handler.run(req, res, modes);
-		throw new Error('error');
+		//throw new Error('error');
 	}).listen(port || 8888, function() {//监听端口只用tcp即可
 		console.log("master start " + cpus.length + " worker");
 		for(var i = 0; i < cpus.length - 1; i++) {//创建cpu等值的子进程

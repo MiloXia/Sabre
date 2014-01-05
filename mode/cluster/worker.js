@@ -20,6 +20,7 @@ process.on('message', function(m, net) {//接收消息后还原句柄对象
 
 process.on('uncaughtException', function(err) {
 	//logger.log(err);
+	console.log(err);
 	process.send({act:'suicide'});//在推出前发送一个自杀信号:群发
 	worker.close(function() {//断开连接 长连接时执行回调的时间会比较久，需要设置超时
 		process.exit(1);

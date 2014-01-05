@@ -6,8 +6,11 @@ exports.run = function(req, res, modes) {
 	//qs.querystring(req); //middleware 1
 	//console.log(req.query);
 	console.log('worker id: '+process.pid);
-	var handle = path.route(req.url);//路由分发
-	_handler(handle, [req, res], modes);
+	if(path.isRestful(req.url)) {
+		_handlerRESTful(path.rest(req), [req, res], modes);
+	} else { //web //路由分发
+		_handler(path.route(req.url), [req, res], modes);
+	}
 }
 exports.run2 = function(req, res) {
 	//其它的路由分发方式：自定义
@@ -47,6 +50,7 @@ function _inject(keys, module) {
 	}
 	return modes;
 }
+
 /* http error hanlder */
 function handler404(res) {
 	console.log('404');
@@ -60,3 +64,44 @@ function handler500(res, err) {
 	res.end("<h1>500</h1>");
 	//TODO handle 500 by user config
 }
+
+var RESOURCE_DIR = '../resource/';
+function _handlerRESTful(handle, args, _modes) {
+	var res = args[1];
+	var req = args[0];
+	try {
+		var resource = require(RESOURCE_DIR + handle.resource);
+		var	api = handle.api;
+		var rest = null
+		var isHandled = false;
+		for(var key in resource) {
+			rest = 	resource[key];
+			//console.log(rest.api);
+			//console.log((new RegExp(rest.api)).test(api));
+			if((new RegExp(rest.api)).test(api) && rest.method == req.method) {
+				console.log(key);
+				isHandled = true;
+				var regexp = /\/\d+/g;
+				var match = api.match(regexp);
+				var args = [];
+				if(match) {
+					var args = match.join('').split('/');
+					args.shift();
+				}
+				console.log(args);
+				rest.callback.apply(null, _inject(rest.modes, _modes).concat(args));
+			} 
+		}
+		if(!isHandled) {
+			handler404(res);
+		}
+	} catch(err) {
+		if(err.code === "MODULE_NOT_FOUND") {
+			handler404(res);
+		} else {
+			handler500(res, err);
+		}
+	} finally {
+		res.end();
+	}
+} 
