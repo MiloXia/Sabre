@@ -39,7 +39,7 @@ function _handler(handle, args, _modes) {
 			handler500(res, err);
 		}
 	} finally {
-		res.end();
+		//res.end();
 	}
 }
 
@@ -102,6 +102,6 @@ function _handlerRESTful(handle, args, _modes) {
 			handler500(res, err);
 		}
 	} finally {
-		res.end();
+		//res.end();
 	}
 } 
